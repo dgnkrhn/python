@@ -1,4 +1,5 @@
 from threading import Thread
+from multiprocessing import Process
 import socket 
 
 import time
@@ -28,6 +29,10 @@ def startReceiver():
     debug("Starting Receiver thread")
     receiver = Receiver()
     receiver.start()
+
+def adcread1():
+    p=Process(target=adcread())
+    p.start()
 
 def adcread():
     while True:
@@ -60,7 +65,7 @@ def connect():
     except:
         debug("Connection failed.")
         return False
-    adcread()
+    adcread1()
     return True
 
 sock = None

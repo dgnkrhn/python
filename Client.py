@@ -6,7 +6,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
 VERBOSE = False
-IP_ADDRESS = "192.168.43.189" #Server ip adresi
+IP_ADDRESS = "192.168.43.25" #Server ip adresi
 IP_PORT = 22000
 
 def setup():
@@ -54,6 +54,25 @@ class Receiver(Thread):
         print "Data received:", data
 # ------------------------ End of Receiver ---------------------
 
+def adcRead():
+    # Read all the ADC channel values in a list.
+    values = [0]*4
+    for i in range(4):
+        # The read_adc function will get the value of the specified channel (0-7).
+        values[i] = mcp.read_adc(i)
+    # Print the ADC values.
+#    print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} |'.format(*values))
+    # Pause for half a second.
+    
+    x1 = '{0:>4}'.format(*values)
+    y1 = '{1:>4}'.format(*values)
+    x2 = '{2:>4}'.format(*values)
+    y2 = '{3:>4}'.format(*values)
+
+    print(x1, y1, x2, y2)
+ 
+    time.sleep(1)
+
 def startReceiver():
     debug("Starting Receiver thread")
     receiver = Receiver()
@@ -95,7 +114,7 @@ if connect():
     time.sleep(1)
     while isConnected:
         print "Sending command: go..."
-        sendCommand("go")
+        sendCommand("deneme")
         time.sleep(2)
 else:
     print "Connection to %s:%d failed" % (IP_ADDRESS, IP_PORT)

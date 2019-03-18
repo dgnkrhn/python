@@ -45,13 +45,14 @@ class SocketHandler(Thread):
 
     def executeCommand(self, cmd):
         debug("Calling executeCommand() with  cmd: " + cmd)
-        if cmd[:-1] == "go":  # remove trailing "\0"
+        if cmd[:-1] == "deneme":  # remove trailing "\0"
             if GPIO.input(P_BUTTON) == GPIO.LOW:
                 state = "Button pressed"
             else:
                 state = "Button released"
             print "Reporting current state:", state
             self.conn.sendall(state + "\0")
+
 # ----------------- End of SocketHandler -----------------------
 
 setup()

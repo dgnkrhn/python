@@ -15,8 +15,8 @@ GPIO.setup(in2,GPIO.OUT)
 GPIO.setup(en,GPIO.OUT)
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
-p=GPIO.PWM(en,1000)
-p.start(25)
+p=GPIO.PWM(en,50)
+p.start(7.5)
 
 class Server:
     def __init__(self, host, port):
@@ -53,7 +53,9 @@ class Server:
                     veri = data.encode().split(":")
                     #print(veri)
                     global x1
-                    x1 = veri[3]
+                    global x2
+                    x1 = veri[1]
+                    x2 = veri[3]
                     #y1 = veri[1]
                     #x2 = veri[2]
                     #y2 = veri[3]
@@ -76,24 +78,23 @@ class Server:
         client_socket.close()
 
 def donusturme():
-    if (int(x1) < 500):
-        #print ('Geri :' + str(500 - int(x1)))
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.HIGH)
-        pwmsignal = ((500 - (int(x1))) / 5)
-        p.ChangeDutyCycle(pwmsignal)
-
-    if (int(x1) > 524):
-        #print ('İleri :' + str(int(x1) - 524))
-        GPIO.output(in1,GPIO.HIGH)
-        GPIO.output(in2,GPIO.LOW)
-        pwmsignal2 = ((int(x1) - 524) / 5)
-        p.ChangeDutyCycle(pwmsignal2)
     
-    if (int(x1) < 524) and (int(x1) > 500):
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.LOW)
-        #print ('Hareketsiz')   
+
+    if (int(x2) < 500):
+        
+        p.ChangeDutyCycle( ( ( 500.0 - float(x2) ) / 110.0 ) + 7.5 )
+        
+        print ( ( ( 500.0 - float(x2) ) / 110.0 ) + 7.5 )
+
+    if (int(x2) > 524):
+        
+        p.ChangeDutyCycle( 7.5 - ( ( float(x2) - 524.0 ) / 100.0 ) ) 
+        print ( 7.5 - ( ( float(x2) - 524.0 ) / 100.0 ) ) 
+    
+    if (int(x2) < 524) and (int(x2) > 500):
+
+        p.ChangeDutyCycle(7.5)
+         
 
 
 if __name__ == "__main__":

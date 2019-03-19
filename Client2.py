@@ -11,7 +11,9 @@ VERBOSE = False
 #sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
 #sock.connect(('192.168.43.25', 22000))  
 
-IP_ADDRESS = "192.168.43.25"
+#IP_ADDRESS = "192.168.43.25"
+#IP_ADDRESS = "192.168.1.5"
+IP_ADDRESS = "192.168.43.189"
 IP_PORT = 22000
 
 CLK  = 18
@@ -24,6 +26,19 @@ def debug(text):
     if VERBOSE:
         print "Debug:---", text
 
+class myClass(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+    def run(self):
+        while True:
+            values = [0]*4
+            for i in range(4):
+                values[i] = mcp.read_adc(i)
+
+            sendCommand('{0:>4}:{1:>4}:{2:>4}:{3:>4}:'.format(*values))
+            time.sleep(0.08)
 
 def startReceiver():
     debug("Starting Receiver thread")
@@ -40,7 +55,7 @@ def adcread():
         for i in range(4):
             values[i] = mcp.read_adc(i)
 
-        sendCommand('| {0:>4} | {1:>4} | {2:>4} | {3:>4} |'.format(*values)) 
+        #sendCommand('| {0:>4} | {1:>4} | {2:>4} | {3:>4} |'.format(*values)) 
 
 def sendCommand(cmd):
     debug("sendCommand() with cmd = " + cmd)
@@ -65,8 +80,10 @@ def connect():
     except:
         debug("Connection failed.")
         return False
-    adcread1()
-    return True
+    myClass()
+    while True:
+        pass
+    #return True
 
 sock = None
 isConnected = False

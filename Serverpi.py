@@ -81,15 +81,18 @@ def donusturme():
     
 
     if (int(x2) < 500):
-        
-        p.ChangeDutyCycle( ( ( 500.0 - float(x2) ) / 110.0 ) + 7.5 )
-        
-        print ( ( ( 500.0 - float(x2) ) / 110.0 ) + 7.5 )
+        #p.ChangeDutyCycle( ( ( 500.0 - float(x2) ) / 110.0 ) + 7.5 )
+        #print ( ( ( 500.0 - float(x2) ) / 110.0 ) + 7.5 )
+
+        p.ChangeDutyCycle( ( ( 500.0 - float(x2) ) * 0.01 ) + 7.5 )
+        #print( ( ( 500.0 - float(x2) ) * 0.01 ) + 7.5 )
 
     if (int(x2) > 524):
-        
-        p.ChangeDutyCycle( 7.5 - ( ( float(x2) - 524.0 ) / 100.0 ) ) 
-        print ( 7.5 - ( ( float(x2) - 524.0 ) / 100.0 ) ) 
+        #p.ChangeDutyCycle( 7.5 - ( ( float(x2) - 524.0 ) / 100.0 ) ) 
+        #print ( 7.5 - ( ( float(x2) - 524.0 ) / 100.0 ) ) 
+
+        p.ChangeDutyCycle( 7.5 - ( ( float(x2) - 524.0 ) * 0.01 ) )
+        #print( 7.5 - ( ( float(x2) - 524.0 ) * 0.01 ) )
     
     if (int(x2) < 524) and (int(x2) > 500):
 
